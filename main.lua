@@ -1,13 +1,12 @@
 function love.load()
-
   dist = 100     --just some constants for kinematics
   grav = 25
+  initBallY = 450
+  shouldUpdate = true
 
   time = {}
     time.start = 0
     time.init = love.timer.getTime()
-
-  initBallY = 450
 
   ball = {}
     ball.rad = 20
@@ -21,27 +20,34 @@ function love.load()
   ground = {}
     ground.y = 450
 
-  distValues = {}
+
 
 end
 
 function love.update(dt)
-  veloc.current = veloc.current + grav
-  ball.coordY = ball.coordY + (veloc.current * dt)
 
-  --time = time + dt
-  --print(time)
+  if shouldUpdate then
+    veloc.current = veloc.current + grav
+    ball.coordY = ball.coordY + (veloc.current * dt)
+    
 
-  ball.dist = ground.y - (ball.coordY + 20)
-  --print(ball.dist)
+    --print(veloc.current)
+    --time = time + dt
+    --print(time)
 
-  if ball.coordY > ground.y - ball.rad then
-    veloc.current = veloc.current * (-1 * 0.8)
-    ball.coordY = ground.y - ball.rad - 1
+    ball.dist = ground.y - (ball.coordY + 20)
+    --print(ball.dist)
 
+    if ball.coordY > ground.y - ball.rad then
+      veloc.current = veloc.current * (-1 * 0.8)
+      ball.coordY = ground.y - ball.rad - 1
+    end
 
+    if math.abs(veloc.current) < 15 then
+      --veloc.current = 0
+      print("autocomplete")
+    end
   end
-
 end
 
 
@@ -75,5 +81,9 @@ end
 function love.keypressed(key) --taken from hello-world--from ben :)
   if key == "escape" then
     love.event.quit(0)
+  end
+
+  if key == "space" then
+    shouldUpdate = not shouldUpdate
   end
 end
