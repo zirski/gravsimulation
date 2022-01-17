@@ -30,7 +30,7 @@ function love.update(dt)
   if shouldUpdate then --adds pause functionality
     veloc = veloc + grav
     ball.coordY = ball.coordY + (veloc * dt)
-    --print(veloc)
+    print(veloc)
 
     if ball.coordY > ground.y - ball.rad then
       veloc = veloc * (-1 * frictCoef)
@@ -45,14 +45,14 @@ function love.update(dt)
       --print(currentPos)
 
       --print("switch")
-      print(bounceDist)
+      --print(bounceDist)
     end
 
     if (bounceDist > 0.1) and (math.abs(bounceDist) < 0.5) then -- stops ball if it starts oscillating
       shouldUpdate = not shouldUpdate
     end
 
-    print(shouldUpdate)
+    --print(shouldUpdate)
 
     prevVeloc = veloc
   end --end of love.update functionality
