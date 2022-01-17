@@ -14,61 +14,56 @@ function love.load()
     ball.coordY = 250
 
   veloc = {}
-    veloc.init = 75
-    veloc.current = 0
+    veloc = 0
 
   ground = {}
     ground.y = 450
 
+  distInit = (ball.coordY - ground.y) --simplified form of kinematic #4, solved for distance
+  print(distInit)
+  prevPos = ball.coordY
+  prevVeloc = veloc
 
 
 end
 
 function love.update(dt)
 
-  if shouldUpdate then
-    veloc.current = veloc.current + grav
-    ball.coordY = ball.coordY + (veloc.current * dt)
-    
-
-    --print(veloc.current)
-    --time = time + dt
-    --print(time)
-
-    ball.dist = ground.y - (ball.coordY + 20)
-    --print(ball.dist)
+  if shouldUpdate then --adds pause functionality
+    veloc = veloc + grav
+    ball.coordY = ball.coordY + (veloc * dt)
+    --print(veloc)
 
     if ball.coordY > ground.y - ball.rad then
-      veloc.current = veloc.current * (-1 * 0.8)
+      veloc = veloc * (-1 * 0.7)
       ball.coordY = ground.y - ball.rad - 1
     end
 
-    if math.abs(veloc.current) < 15 then
-      --veloc.current = 0
-      print("autocomplete")
+    bounceDist = 0
+
+    if ((veloc <= veloc * -1) ~= (prevVeloc <= prevVeloc * -1)) then
+      bounceDist = prevPos - ball.coordY
+      prevPos = ball.coordY
+      --print(currentPos)
+
+      --print("switch")
+      print(bounceDist)
+
     end
-  end
+
+    if (bounceDist > 0.1) and (math.abs(bounceDist) < 0.9) then -- change to variable
+      shouldUpdate = not shouldUpdate
+    end
+
+    print(shouldUpdate)
+
+    prevVeloc = veloc
+  end --end of .update functionality
 end
 
-
 function love.draw()
---[[
-  if ball.coordYCurrent > 0 then
-    veloc.current = veloc.init + (grav * time.start) --calculating velocity at a certain time
-  else
-    veloc.current = (veloc.current * -1) -- veloc.current * 0.03
-    --print("collision")
-  end
-]]--
-  --time.start = love.timer.getTime() - time.init
-  --ball.coordYCurrent = (veloc.init * time.start) + 0.5 * grav * (time.start)^2 -- calculating current position using velocity inital
-  --print(ball.coordYCurrent)
-  --ball.coordYCurrent = (veloc.current + veloc.init)/2 * time.start
-
-  --print(veloc.current)
-
   love.graphics.setLineWidth(2)
-  love.graphics.circle("line", ball.coordX, ball.coordY, ball.rad) --change this to relate it to mass
+  love.graphics.circle("line", ball.coordX, ball.coordY, ball.rad)
 
   love.graphics.setLineWidth(2)
   love.graphics.line(0, ground.y, 500, ground.y)
