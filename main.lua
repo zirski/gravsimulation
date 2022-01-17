@@ -2,6 +2,7 @@ function love.load()
   dist = 100     --just some constants for kinematics
   grav = 25
   initBallY = 450
+  frictCoef = 0.7 -- friction coefficient (to decay ball height each bounce)
   shouldUpdate = true
 
   time = {}
@@ -13,17 +14,14 @@ function love.load()
     ball.coordX = 250
     ball.coordY = 250
 
-  veloc = {}
-    veloc = 0
-
   ground = {}
     ground.y = 450
 
+  veloc = 0
   distInit = (ball.coordY - ground.y) --simplified form of kinematic #4, solved for distance
   print(distInit)
   prevPos = ball.coordY
   prevVeloc = veloc
-
 
 end
 
@@ -35,7 +33,7 @@ function love.update(dt)
     --print(veloc)
 
     if ball.coordY > ground.y - ball.rad then
-      veloc = veloc * (-1 * 0.7)
+      veloc = veloc * (-1 * frictCoef)
       ball.coordY = ground.y - ball.rad - 1
     end
 
@@ -48,17 +46,16 @@ function love.update(dt)
 
       --print("switch")
       print(bounceDist)
-
     end
 
-    if (bounceDist > 0.1) and (math.abs(bounceDist) < 0.9) then -- change to variable
+    if (bounceDist > 0.1) and (math.abs(bounceDist) < 0.5) then -- stops ball if it starts oscillating
       shouldUpdate = not shouldUpdate
     end
 
     print(shouldUpdate)
 
     prevVeloc = veloc
-  end --end of .update functionality
+  end --end of love.update functionality
 end
 
 function love.draw()
