@@ -6,7 +6,7 @@ function love.load()
   initBallY = 450
   frictCoef = 0.7 -- friction coefficient (to decay ball height each bounce)
   shouldUpdate = true
-  accelX = 10
+  bounceForce = 500
 
   time = {}
     time.start = 0
@@ -61,7 +61,7 @@ function love.update(dt)
     --print(shouldUpdate)
 
   end --end of love.update functionality
-  
+
   ball.coordX = ball.coordX + (veloc.x * dt)
   prevVeloc = veloc.y
 end
@@ -78,26 +78,39 @@ function love.draw()
 
 end
 
-function love.keypressed(key) --taken from hello-world--from ben :)
+function love.keypressed(key, isRepeat) --taken from hello-world--from ben :)
   if key == "escape" then
     love.event.quit(0)
   end
 
-  if key == "space" then -- pauses the program
+  if key == "/" then -- pauses the program
     shouldUpdate = not shouldUpdate
   end
-end
 
-function love.keypressed(key, isrepeat)
+  if key == "space" then
+    veloc.y = -500
+    shouldUpdate = true
+  end
+
   if key == "d" then
-    veloc.x = veloc.x + accelX
-    print("pressed")
+    veloc.x = bounceForce
+    print("right")
+  end
+
+  if key == "a" then
+    veloc.x = -bounceForce
+    print("left")
   end
 end
 
 function love.keyreleased(key)
   if key == "d" then
-    accelX = 0
+    veloc.x = 0
+    print("released")
+  end
+
+  if key == "a" then
+    veloc.x = 0
     print("released")
   end
 end
