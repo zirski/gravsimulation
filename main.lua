@@ -36,7 +36,7 @@ function love.update(dt)
   if shouldUpdate then --adds pause functionality
     veloc.y = veloc.y + grav
     ball.coordY = ball.coordY + (veloc.y * dt)
-    --print(veloc.y)
+    print(veloc.y)
 
     if ball.coordY > ground.y - ball.rad then
       veloc.y = veloc.y * (-1 * frictCoef)
@@ -108,5 +108,9 @@ function love.keyreleased(key)
   if key == "a" then
     veloc.x = 0
     print("released")
+  end
+
+  if key == "l" then
+    dofile("test.lua")
   end
 end
