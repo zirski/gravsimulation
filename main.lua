@@ -42,14 +42,12 @@ function love.update(dt)
       veloc.y = veloc.y * (-1 * frictCoef)
       ball.coordY = ground.y - ball.rad - 1
     end
-
     bounceDist = 0
 
     if ((veloc.y <= veloc.y * -1) ~= (prevVeloc <= prevVeloc * -1)) then
       bounceDist = prevPos - ball.coordY
       prevPos = ball.coordY
       --print(currentPos)
-
       --print("switch")
       --print(bounceDist)
     end
@@ -57,9 +55,7 @@ function love.update(dt)
     if (bounceDist > 0.1) and (math.abs(bounceDist) < 0.5) then -- stops ball if it starts oscillating
       shouldUpdate = not shouldUpdate
     end
-
     --print(shouldUpdate)
-
   end --end of love.update functionality
 
   ball.coordX = ball.coordX + (veloc.x * dt)
